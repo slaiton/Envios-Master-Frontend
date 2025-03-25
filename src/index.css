@@ -70,6 +70,10 @@ button:focus-visible {
   /* color:#3333; */
 }
 
+.bg-coordinadora {
+  background-color: #1063AC;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
