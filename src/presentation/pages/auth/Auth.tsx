@@ -41,7 +41,7 @@ const Auth = () => {
 
 
   return (
-    <div className="min-h-screen w-screen flex flex-wrap items-center justify-center bg-gray-900">
+    <div className="min-h-screen w-screen flex flex-wrap items-center justify-center bg-coordinadora">
     {/* Sección Izquierda - Imagen */}
     <div
       className="w-full md:w-1/2 h-64 md:h-screen flex items-center justify-center bg-cover bg-center"
