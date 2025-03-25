@@ -15,12 +15,23 @@ import { fetchAll } from "../../../services/orderService";
 const OrdersList = () => {
   const [vehicles, setVehicles] = useState<{ id: number; label: string }[]>([]);
   const [drivers, setDrivers] = useState<{ id: number; label: string }[]>([]);
+  const [clients, setClients] = useState<{ id: number; label: string }[]>([]);
   const [orders, setOrders] = useState<OrderViewModel[]>([]);
   const [selectedOrders, setSelectedOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+
+
+  const userProfile = localStorage.getItem('profile');
+  const clientFromLocalStorage = localStorage.getItem('client');
+
+  console.log(userProfile);
+  
+
+
   const [filters, setFilters] = useState({
-    id_client: "",
+    id_client: userProfile === '2' ? clientFromLocalStorage : "",
     consecutive: "",
     id_status: "",
     id_vehicle: "",
@@ -28,6 +39,7 @@ const OrdersList = () => {
     id_origin: "",
     id_destination: "",
   });
+
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -54,9 +66,10 @@ const OrdersList = () => {
 
   const fetchData = async () => {
     try {
-      const { drivers, vehicles } = await fetchAll();
+      const { drivers, vehicles, clients } = await fetchAll();
       setDrivers(drivers);
       setVehicles(vehicles);
+      setClients(clients);
     } catch (error) {
       // Maneja el error según sea necesario
       console.error(error);
@@ -152,21 +165,40 @@ const OrdersList = () => {
           }}
           renderInput={(params) => <TextField {...params} label="Conductor" />}
         />
-        {/* Agrega más filtros según sea necesario */}
+
+        {userProfile === "1" && (
+          <Autocomplete
+            fullWidth
+            options={clients}
+            getOptionLabel={(option) => option.label}
+            getOptionKey={(option) => option.id}
+            value={clients.find((opt) => opt.id === Number(filters.id_client)) || null}
+            onChange={(event, newValue) => {
+              setFilters((prev: any) => ({
+                ...prev,
+                id_client: newValue ? newValue.id : "",
+              })
+              )
+            }}
+            renderInput={(params) => <TextField {...params} label="Cliente" />}
+          />
+        )}
       </div>
 
       {/* Tabla de órdenes */}
       <table className="min-w-full table-auto border-collapse bg-white shadow-md rounded-lg overflow-hidden">
         <thead className="bg-gray-200">
           <tr>
-            <th className="px-6 py-3 text-left">
-              <input
-                type="checkbox"
-                checked={selectedOrders.length === orders.length}
-                onChange={handleSelectAll}
-                className="cursor-pointer"
-              />
-            </th>
+            {userProfile === "1" && (
+              <th className="px-6 py-3 text-left">
+                <input
+                  type="checkbox"
+                  checked={selectedOrders.length === orders.length}
+                  onChange={handleSelectAll}
+                  className="cursor-pointer"
+                />
+              </th>
+            )}
             <th className="px-6 py-3 text-left text-sm font-medium text-gray-600">Guía</th>
             <th className="px-6 py-3 text-left text-sm font-medium text-gray-600">Origen</th>
             <th className="px-6 py-3 text-left text-sm font-medium text-gray-600">Dirección Origen</th>
@@ -186,14 +218,16 @@ const OrdersList = () => {
               className={`hover:bg-gray-50 transition duration-300 ${selectedOrders.includes(order.consecutive) ? "bg-blue-100" : ""
                 }`}
             >
-              <td className="px-6 py-4">
-                <input
-                  type="checkbox"
-                  checked={selectedOrders.includes(order.consecutive)}
-                  onChange={() => handleSelectOrder(order.consecutive)}
-                  className="cursor-pointer"
-                />
-              </td>
+              {userProfile === "1" && (
+                <td className="px-6 py-4">
+                  <input
+                    type="checkbox"
+                    checked={selectedOrders.includes(order.consecutive)}
+                    onChange={() => handleSelectOrder(order.consecutive)}
+                    className="cursor-pointer"
+                  />
+                </td>
+              )}
               <td className="px-6 py-4 text-sm font-medium text-blue-600">
                 <a
                   href={`/order/detail/${order.id}`}

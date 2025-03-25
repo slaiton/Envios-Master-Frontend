@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { OrderViewModel } from "../../../domain/models/OrderViewModel";
 
@@ -7,10 +7,22 @@ interface OrderDetailComponentProps {
 }
 
 const OrderDetailComponent: React.FC<OrderDetailComponentProps> = ({ order }) => {
+  const [isTrackingVisible, setIsTrackingVisible] = useState(false);
   // Convertir el campo "detalle" en un JSON válido
   if (typeof order.detail === "string") {
     order.detail = JSON.parse(order.detail);
   }
+
+
+  if (typeof order.tracking === "string") {
+    order.tracking = JSON.parse(order.tracking);
+  }
+
+
+  const toggleTrackingVisibility = () => {
+    setIsTrackingVisible(!isTrackingVisible);
+  };
+
 
   return (
     <motion.div
@@ -76,6 +88,41 @@ const OrderDetailComponent: React.FC<OrderDetailComponentProps> = ({ order }) =>
             </tbody>
           </table>
         </div>
+      </div>
+           {/* Tracking Section */}
+           <div className="mt-6">
+        <button
+          className="bg-blue-500 text-white py-2 px-4 rounded-md mb-4"
+          onClick={toggleTrackingVisibility}
+        >
+          {isTrackingVisible ? "Ocultar Tracking" : "Ver Tracking"}
+        </button>
+
+        {isTrackingVisible && (
+          <div>
+            <h3 className="text-lg font-semibold text-gray-700 border-b pb-1">📍 Tracking Info</h3>
+            <table className="min-w-full bg-white">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="py-2 px-4 text-left">Date</th>
+                  <th className="py-2 px-4 text-left">Status</th>
+                  <th className="py-2 px-4 text-left">Observaciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {order.tracking.map((track: any, index: number) => (
+                  <tr key={index} className={`${index % 2 === 0 ? "bg-gray-50" : "bg-white"} border-b`}>
+                    <td className="py-2 px-4">{track.date}</td>
+                    <td className="py-2 px-4" style={{ color: track.status_color }}>
+                      {track.status_name}
+                    </td>
+                    <td className="py-2 px-4">{track.observation || "N/A"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </motion.div>
   );

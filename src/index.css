@@ -18,6 +18,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+header, footer {
+  background-color: #1063AC;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -56,6 +60,14 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+.ps-sidebar-container {
+  background-color: #1063AC !important;
+}
+
+.ps-menu-button {
+  /* color:#3333; */
 }
 
 @media (prefers-color-scheme: light) {

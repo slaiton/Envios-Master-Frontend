@@ -31,4 +31,5 @@ export interface OrderViewModel {
     status_color:string;
     weightSum:string;
     detail: OrderDetail[]
+    tracking: []
 }

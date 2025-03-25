@@ -6,7 +6,7 @@ import { OrderDispatchModel } from "../../domain/models/OrderDispatchModel";
 
 
 export class OrderRepositoryImpl implements OrderRepository {
-  async getOrders(filters:any): Promise<OrderViewModel[]> {
+  async getOrders(filters: Record<string, any>): Promise<OrderViewModel[]> {
     try {
       const response = await getOrders(filters);
       return response;

@@ -13,13 +13,16 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [idClient, setIdClient] = useState<string | null>(null);
+  const [idRole, setIdRole] = useState<string | null>(null);
 
   // Cargar el estado de autenticación al iniciar la app
   useEffect(() => {
     const token = localStorage.getItem("auth_token");
     const clientId = localStorage.getItem("client");
+    const idRole = localStorage.getItem("profile");
     setIsAuthenticated(!!token);
     setIdClient(clientId);
+    setIdRole(idRole);
   }, []);
 
   const login = async (email: string, password: string) => {
@@ -30,6 +33,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         localStorage.setItem("auth_token", result.token);
         setIsAuthenticated(true);
       }
+
+
+      if (result.id_client) {
+        localStorage.setItem("client", result.id_client);
+        setIdClient(result.id_client);
+      }
+
+      if (result.id_rol) {
+        localStorage.setItem("profile", result.id_rol);
+        setIdRole( result.id_rol);
+    
+      }
+
+
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
     }

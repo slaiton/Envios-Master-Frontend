@@ -13,17 +13,17 @@ const IndicatorCard: FC<{ stats: HomeStatsModel }> = ({ stats }) => {
 
   return (
     <motion.div 
-      className="bg-white rounded-lg shadow-lg p-4"
+      className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center justify-center text-center"
       initial={{ opacity: 0, y: -20 }} 
       animate={{ opacity: 1, y: 0 }} 
       transition={{ duration: 0.5 }}
     >
-      <h3 className="text-xl font-bold mb-2">{stats.title}</h3>
-      <div>
+      <h3 className="text-xl font-bold mb-4">{stats.title}</h3>
+      <div className="w-full flex justify-center">
         {stats.type === "number" ? (
-          <div className="text-3xl font-semibold">{stats.value}</div>
+          <div className="text-4xl font-semibold">{stats.value}</div>
         ) : (
-          <ResponsiveContainer width="100%" height={100}>
+          <ResponsiveContainer width="100%" height={120}>
             <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />

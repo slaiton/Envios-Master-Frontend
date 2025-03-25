@@ -15,7 +15,6 @@ export const authService = {
       });
 
       const result = await response.json();
-      localStorage.setItem("client", result.user.id_client);
 
       if (!response.ok) {
         throw new Error(result.message || "Error en la autenticación");

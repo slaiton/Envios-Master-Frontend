@@ -18,3 +18,13 @@ export const transformDrivers = (drivers: Drivers[]): TransformedDrivers[] => {
     label: name,
   }));
 };
+
+export type Clients = { id: number; name: string };
+export type TransformedClients = { id: number; label: string };
+
+export const transformClients = (clients: Clients[]): TransformedClients[] => {
+  return clients.map(({ id, name }) => ({
+    id: id,
+    label: name,
+  }));
+};

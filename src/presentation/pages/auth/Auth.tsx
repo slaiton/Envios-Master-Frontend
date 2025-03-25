@@ -25,8 +25,12 @@ const Auth = () => {
     setErrorMessage("");
 
     try {
+      data.id_rol = 2;
+      data.id_client = 1;  // Para una segunda fase el cliente podra regisrar mas personalizadamente
       const result = await authenticateUser(data, isLogin);
       localStorage.setItem("auth_token", result.token);
+      localStorage.setItem("client", result.user.id_client);
+      localStorage.setItem("profile", result.user.id_rol);
       window.location.href = "/";
     } catch (error: any) {
       setErrorMessage(error.message);

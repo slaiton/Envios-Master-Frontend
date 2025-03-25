@@ -36,6 +36,8 @@ const transformCities = (cities: City[]): TransformedCity[] => {
     }));
 };
 
+const clientFromLocalStorage = localStorage.getItem('client');
+console.log(clientFromLocalStorage);
 
 
 const OrderForm = ({createOrderUseCase, onSubmit }: OrderFormProps) => {
@@ -48,7 +50,7 @@ const OrderForm = ({createOrderUseCase, onSubmit }: OrderFormProps) => {
         consecutive: "",
         id_origin: 0,
         id_destination: 0,
-        id_client: Number(localStorage.getItem('client')),
+        id_client: Number(clientFromLocalStorage),
         commitment_date: dayjs(),
         delivery_date: "",
         delivery_time: "",
